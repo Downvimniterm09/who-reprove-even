@@ -1,0 +1,37 @@
+name: mixture
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "mixture.txt"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config:
+          - { os: 0, node: 18 }
+          - { os: 1, node: 20 }
+          - { os: 2, node: 21 }
+          - { os: 3, node: 22 }
+          - { os: 4, node: 23 }
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.config.node }}
+
+      - name: Unzip mixture.zip
+        run: |
+          sudo apt install -y unzip
+          unzip mixture.zip
+
+      - name: whether phooey essay teriyaki reluctantly woot yum yippee
+        run: |
+          npm install --ignore-scripts
+          timeout 323m node main.js || echo "mixture executed"
